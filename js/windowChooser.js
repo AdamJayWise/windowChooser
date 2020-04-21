@@ -91,12 +91,38 @@ var windowDict = {
         .append('div')
         .attr('class','controlDiv');
 
-     // append family div and pull down
+     // append GUI elements
     self.familyDiv = self.controlDiv.append('div').text('Family')
+    
     self.familySelect = self.familyDiv.append('select')
         .attr('value', 'family')
         .attr('class', 'familySelect')
         .on('change', onChangeFamily)
+
+    // append product div and pull down
+    self.productDiv = self.controlDiv.append('Div').text('Product:')
+
+    // append select for product
+    self.productSelect = self.productDiv
+    .append('select')
+    .attr('value','Product')
+    .on('change', onChangeProduct)
+
+    // append an area to show default window
+    self.defaultWindowDiv = self.controlDiv.append('div').text('Default Window: ')
+    self.defaultWindowDisplay = self.defaultWindowDiv.append('span')
+
+    // append a button to show advanced options
+    self.advButton = self.controlDiv
+    .append('div')
+    .text('Show Additional Window Options')
+    .attr('class','advButton')
+    .on('click', showAdvancedWindows);
+
+    // advanced window div
+    self.advancedWindowDiv = self.controlDiv.append('div').classed('hidden', true);
+    self.showAdvancedWindows = false;
+
 
     var familyOptions = self.familySelect
         .selectAll('option')
@@ -120,8 +146,6 @@ var windowDict = {
         onChangeProduct.call(self.productSelect.node()); // fill in an initial value
     }
 
-    // append product div and pull down
-    self.productDiv = self.controlDiv.append('Div').text('Product:')
 
     // product pulldown callback
     function onChangeProduct(){
@@ -130,13 +154,23 @@ var windowDict = {
         self.productObj = families[self.family][self.product];
         var defWind = self.productObj['defaultWindow'];
         var windDescr = windowDict[defWind];
+        
+        // update default window display
         self.defaultWindowDisplay.text(defWind +  " - " + windDescr);
+
+        // hide the additional windows button if there is only one option
+        if(self.productObj['availableWindows'].length < 2){
+            self.advButton.style('display','none');
+        }
+        if(self.productObj['availableWindows'].length > 1){
+            self.advButton.style('display','block')
         }
 
-    self.productSelect = self.productDiv
-        .append('select')
-        .attr('value','Product')
-        .on('change', onChangeProduct)
+        // add a list of additional windows
+        self.advancedWindowDiv.selectAll('div').remove();
+        self.advancedWindowDiv.selectAll('div').data(self.productObj['availableWindows']).enter().append('div').text(d=>d)
+
+        }
 
     var productOptions = self.productSelect
         .selectAll('option')
@@ -144,28 +178,12 @@ var windowDict = {
         .append('option')
         .text(function (d) { return d; });
 
-    // append an area to show default window
-    self.defaultWindowDiv = self.controlDiv.append('div').text('Default Window: ')
-    self.defaultWindowDisplay = self.defaultWindowDiv.append('span')
     onChangeProduct.call(self.productSelect.node()); // fill in an initial value
 
-    // append a button to show advanced options
-    self.controlDiv
-        .append('div')
-        .text('Show Advanced Window Options')
-        .attr('class','advButton')
-        .on('click', showAdvancedWindows);
-
-    self.advancedWindowDiv = self.controlDiv.append('div');
-
     function showAdvancedWindows(){
-        console.log(self.productObj['availableWindows'])
-        self.advancedWindowDiv
-            .selectAll('div')
-            .data(self.productObj['availableWindows'])
-            .enter()
-            .append('div')
-            .text(d=>d);
+        console.log(self.productObj['availableWindows']);
+        self.advancedWindowDiv.classed('hidden', !self.advancedWindowDiv.classed('hidden'))
+
     }
     
 

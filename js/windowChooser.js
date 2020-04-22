@@ -1,17 +1,10 @@
 console.log("windowChooser - (C) Adam Wise 2020")
 
 /**
- * What I'd like to do here is have a json configuration of cameras.
- * 
- * For the UI, there will be a graph displayed, with a UI component that allows choice of "family", "model", "options"
- * start with a graph and 
- * 
- * choice of a family will populate the product pulldown, choice of product will population the options 
- * by default show some sCMOS camera
- * 
- * 
- * ok what now - adding curves.  When the product changes, all the paths in the canvas should be removed
- * and a path appended to the canvas for each available window, with only the default visible at first
+ * to do
+ * clippath on graphs
+ * legend generator
+ * create mechanical names
  */
 
 // json structure of the product families
@@ -81,7 +74,7 @@ optLUT = {
     '(BB-VS-NR)U Sona-2BV11' : 'Marana11(BB-VS-NR)',
     '(BB-VS-NR)W Sona-2BV11' : 'Marana11(BB-VS-NR)',
     // sona 4.2B6
-    '(BB-VS-NR)U Sona 4.2B-6' : 'OPT-14344',
+    '(BB-VS-NR)U Sona 4.2B-6' : 'OPT-14344' ,
     
     
 
@@ -231,7 +224,7 @@ var windowDict = {
         var windDescr = windowDict[defWind];
         
         // update default window display
-        self.defaultWindowDisplay.text(defWind +  " : " + windDescr);
+        self.defaultWindowDisplay.text( self.productObj['mechanicalSpecification'] + defWind +  " : " + windDescr);
 
         // hide the additional windows button if there is only one option
         if(self.productObj['availableWindows'].length < 2){
@@ -248,7 +241,7 @@ var windowDict = {
             .data(self.productObj['availableWindows'])
             .enter()
             .append('div')
-            .text(d=>d + ' - ' + windowDict[d])
+            .text( d =>  self.productObj['mechanicalSpecification'] +     d + ' - ' + windowDict[d])
 
 
         // remove old traces from graph

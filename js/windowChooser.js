@@ -97,6 +97,13 @@ var windowDict = {
     '(VS-NR-ENH)W' : 'VIS-NIR Enhanced, Wedged'
 }
 
+var colorDict = {
+    '(BB-VS-NR)U' : 'orange',
+    '(BB-VS-NR)W' : 'red',
+    '(BB-VV-NR)U' : 'green',
+    '(VS-NR-ENH)W' : 'blue'
+}
+
 
  function View(paramObj){
     var self = this;
@@ -110,9 +117,9 @@ var windowDict = {
     self.canvasHeight = 300; // chart canvas height in pixels
     self.canvasMargin = 50; // svg margin in pixels
     self.xTicks = [];
-    self.yTicks = [50, 75, 100];
+    self.yTicks = [50,60,70,80,90,100];
     self.yAxisMin = 50;
-    self.yAxisMax = 102;
+    self.yAxisMax = 100;
     self.xAxisMin = 100
     self.xAxisMax = 1100;
 
@@ -161,7 +168,7 @@ var windowDict = {
     self.svg.append('clipPath')
         .attr('id','clipBox')
         .append('rect')
-        .attr('width', self.xScale(self.xAxisMax - 5) - self.xScale(self.xAxisMin) )
+        .attr('width', self.xScale(self.xAxisMax) - self.xScale(self.xAxisMin) )
         .attr('height', self.yScale(self.yAxisMin + 0.5) - self.yScale(self.yAxisMax) )
         .attr('x', self.canvasMargin)
         .attr('y', self.canvasMargin/5)
@@ -182,6 +189,34 @@ var windowDict = {
         .attr('transform',`translate(0,${self.yScale(self.yTicks[0])-2})`)
         .call(self.xAxis)
         .style('font-size',13)
+
+    // add division lines
+    for (var i in self.xTicks){
+        self.svg.append('line')
+            .attr('x1', self.xScale(self.xTicks[i]))
+            .attr('y1', self.yScale(self.yAxisMin))
+            .attr('x2', self.xScale(self.xTicks[i]))
+            .attr('y2', self.canvasMargin/5)
+            .attr('stroke','gray')
+    }
+
+    for (var i in self.yTicks){
+        self.svg.append('line')
+            .attr('y1', self.yScale(self.yTicks[i]))
+            .attr('x1', self.xScale(self.xAxisMax))
+            .attr('y2', self.yScale(self.yTicks[i]))
+            .attr('x2', self.canvasMargin)
+            .attr('stroke','gray')
+    }
+
+    // add axes labels
+    var xLabelG = self.svg.append('g');
+    xLabelG.attr('transform', `translate(${self.xScale( (self.xAxisMin + self.xAxisMax) / 2)}, ${self.yScale(self.yAxisMin) + 35})`)
+    xLabelG.append('text').text('Wavelength, nm').attr('text-anchor','middle').attr('class','axisLabel')
+
+    var yLabelG = self.svg.append('g');
+    yLabelG.attr('transform', `translate(15, ${self.yScale( (self.yAxisMax + self.yAxisMin) / 2)}), rotate(-90)`)
+    yLabelG.append('text').text('Transmission, %').attr('text-anchor','middle').attr('class','axisLabel')
 
     // add graph bounding box
     self.svg.append('rect')
@@ -307,7 +342,8 @@ var windowDict = {
                 // add traces to graph
                 self.svg.append('path') 
                     .attr('fill','none')
-                    .attr('stroke', 'black')
+                    .attr('stroke', colorDict[self.productObj.availableWindows[i]])
+                    .attr('stroke-width', 3)
                     .attr('d', self.dataLine(dataObj))
                     .attr("clip-path", "url(#clipBox)")
                     //.attr('stroke-dasharray', this.dashArray)

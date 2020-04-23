@@ -8,7 +8,7 @@ var debug = 1;
  * legend generator?
  * switch control to top
  * add window selector
- * add 2nd svg with QE info
+ * 
  */
 
 // json structure of the product families
@@ -359,7 +359,7 @@ for (var n in svgConfigs){
     // populate family options
     var familyOptions = self.familySelect
         .selectAll('option')
-        .data( ['Family'].concat(Object.keys(families))).enter()
+        .data( Object.keys(families)).enter()
         .append('option')
         .text(function (d) { return d; });
 
@@ -412,9 +412,12 @@ for (var n in svgConfigs){
 
         }
 
+        // draw traces method
         self.drawTraces = function(mode = null){
 
-            // check if mode is specific
+            // mode argument, default draws the first, default window,
+            // 'all' draws all the available windows
+            // i'll have to change this when I'm drawing one specific one at a time?
             var endIndex = 0;
             if (mode == 'default'){
                 endIndex = 1;
@@ -422,7 +425,18 @@ for (var n in svgConfigs){
             if (mode == 'all'){
                 endIndex = -1;
             }
-                    // remove old traces from graph
+            // remove old traces from graph
+
+            d3.selectAll('.legend').remove();
+            self.legendG = self.svg.append('g').attr('class','legend')
+            self.legendG.attr('transform', `translate(${self.canvasWidth/2.5}, ${3*self.canvasHeight/5})`)
+            self.legendG.append('rect')
+                .attr('fill','white')
+                .attr('x',0)
+                .attr('y',0)
+                .attr('width', 200)
+                .attr('height', 50)
+
             self.svg.selectAll('path').remove();
             // update traces on graph
             for (var i in self.productObj.availableWindows.slice(0, endIndex)){
@@ -441,6 +455,26 @@ for (var n in svgConfigs){
                     .attr('d', self.dataLine(dataObj))
                     .attr("clip-path", "url(#clipBox)")
                     //.attr('stroke-dasharray', this.dashArray)
+                
+                // add legend text entry to graph
+                var textEntry = self.legendG.append('text');
+                textEntry.text(windowDict[window]).attr('alignment-baseline','hanging')
+                textEntry.attr('x', 20)
+                // add path entry to text
+                self.legendG.append('line')
+                    .attr('x1',0)
+                    .attr('x2',15)
+                    .attr('y1',10)
+                    .attr('y2',10)
+                    .attr('stroke', colorDict[window])
+                    .attr('stroke-width', 3)
+                // update legend bounding box to fit text
+                var legendBBox = d3.select('.legend').select('rect').node().getBBox();
+                var textBBox = textEntry.node().getBBox();
+                d3.select('.legend').select('rect').attr('width', Math.max(textBBox.width + 20, legendBBox.width))
+                d3.select('.legend').select('rect').attr('height', textBBox.height);
+
+                // add legend entry
             }
         }
 

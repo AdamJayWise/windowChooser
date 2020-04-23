@@ -1,5 +1,7 @@
 console.log("windowChooser - (C) Adam Wise 2020")
 
+var debug = 1;
+
 /**
  * to do
  * clippath on graphs
@@ -18,7 +20,7 @@ var families = {
             'displayName' : 'Marana 4.2BV-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U' ,
-            'availableWindows' : ['(BB-VV-NR)U', '(VS-NR-ENH)W']
+            'availableWindows' : [ '(BB-VS-NR)U','(BB-VV-NR)U', '(VS-NR-ENH)W']
         },
 
         'Marana-4BU11' : 
@@ -41,7 +43,7 @@ var families = {
 
     'Sona' : {
         // Sona models 
-        'Sona-2BV11' : 
+        'Sona-4BV11' : 
         {
             'displayName' : 'Sona 4.2B-11',
             'mechanicalSpecification' : 'WN50FS',
@@ -49,7 +51,15 @@ var families = {
             'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W']
         },
 
-        'Sona 4.2B-6' : 
+        'Sona-2BV11' : 
+        {
+            'displayName' : 'Sona 2.0B-11',
+            'mechanicalSpecification' : 'WN50FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W']
+        },
+
+        'Sona-4BV6' : 
         {
             'displayName' : 'Sona 4.2B-6',
             'mechanicalSpecification' : 'WN50FS',
@@ -71,13 +81,13 @@ optLUT = {
     //marana 4BU-11
     '(BB-VV-NR)U Marana-4BU11' : '(BB-VV-NR)',
     // Sona 4/2BV11
+    '(BB-VS-NR)U Sona-4BV11' : 'Marana11(BB-VS-NR)',
+    '(BB-VS-NR)W Sona-4BV11' : 'Marana11(BB-VS-NR)',
     '(BB-VS-NR)U Sona-2BV11' : 'Marana11(BB-VS-NR)',
     '(BB-VS-NR)W Sona-2BV11' : 'Marana11(BB-VS-NR)',
     // sona 4.2B6
-    '(BB-VS-NR)U Sona 4.2B-6' : 'OPT-14344' ,
+    '(BB-VS-NR)U Sona-4BV6' : 'OPT-14344' ,
     
-    
-
 }
 
 var windowDict = {
@@ -99,18 +109,28 @@ var windowDict = {
     self.canvasWidth = 600; // chart canvas width in pixels
     self.canvasHeight = 300; // chart canvas height in pixels
     self.canvasMargin = 50; // svg margin in pixels
-    self.xTicks = [100, 500, 1100];
+    self.xTicks = [];
     self.yTicks = [50, 75, 100];
+    self.yAxisMin = 50;
+    self.yAxisMax = 102;
+    self.xAxisMin = 100
+    self.xAxisMax = 1100;
+
+    for (var i = 0; i<12; i++){
+        self.xTicks.push(i*100);
+    }
+
+    self
 
     // add scales
     // generate scales and axes including formatting
     self.xScale = d3.scaleLinear()
-                    .domain([100,1200])
+                    .domain([self.xAxisMin, self.xAxisMax])
                     .range([self.canvasMargin, self.canvasWidth-self.canvasMargin])
                     .clamp(true)
 
     self.yScale = d3.scaleLinear()
-                    .domain([50, 100])
+                    .domain([self.yAxisMin, self.yAxisMax])
                     .range([self.canvasHeight-self.canvasMargin, self.canvasMargin/5])
                     .clamp(true)
 
@@ -137,6 +157,15 @@ var windowDict = {
     .attr('width', self.canvasWidth)
     .attr('height', self.canvasHeight)
 
+    // add clip path
+    self.svg.append('clipPath')
+        .attr('id','clipBox')
+        .append('rect')
+        .attr('width', self.xScale(self.xAxisMax - 5) - self.xScale(self.xAxisMin) )
+        .attr('height', self.yScale(self.yAxisMin + 0.5) - self.yScale(self.yAxisMax) )
+        .attr('x', self.canvasMargin)
+        .attr('y', self.canvasMargin/5)
+
     // add axes
     self.svg
         .append('g')
@@ -153,6 +182,15 @@ var windowDict = {
         .attr('transform',`translate(0,${self.yScale(self.yTicks[0])-2})`)
         .call(self.xAxis)
         .style('font-size',13)
+
+    // add graph bounding box
+    self.svg.append('rect')
+        .attr('fill','none')
+        .attr('stroke', 'black')
+        .attr('width', self.xScale(self.xAxisMax) - self.xScale(self.xAxisMin) + 5)
+        .attr('height', self.yScale(self.yAxisMin) - self.yScale(self.yAxisMax))
+        .attr('x', self.canvasMargin - 5)
+        .attr('y', self.canvasMargin/5)
 
     // object properties
     self.controlDiv = self.div
@@ -238,32 +276,45 @@ var windowDict = {
         self.advancedWindowDiv.classed('hidden', true);
         self.advancedWindowDiv.selectAll('div').remove();
         self.advancedWindowDiv.selectAll('div')
-            .data(self.productObj['availableWindows'])
+            .data(self.productObj['availableWindows'].slice(1,-1))
             .enter()
             .append('div')
             .text( d =>  self.productObj['mechanicalSpecification'] +     d + ' - ' + windowDict[d])
 
-
-        // remove old traces from graph
-        self.svg.selectAll('path').remove();
-
-        // update traces on graph
-        for (var i in self.productObj.availableWindows){
-            var window = self.productObj.availableWindows[i];
-            console.log(window, self.product)
-            var tag = optLUT[window + ' ' + self.product];
-            console.log(tag)
-            var dataObj = trans[tag]
-            
-            // add traces to graph
-            self.svg.append('path')
-                .attr('fill','none')
-                .attr('stroke', 'black')
-                .attr('d', self.dataLine(dataObj))
-                //.attr('stroke-dasharray', this.dashArray)
-        }
+        self.drawTraces(mode = 'default');
 
         }
+
+        self.drawTraces = function(mode = null){
+
+            // check if mode is specific
+            var endIndex = 0;
+            if (mode == 'default'){
+                endIndex = 1;
+            }
+            if (mode == 'all'){
+                endIndex = -1;
+            }
+                    // remove old traces from graph
+            self.svg.selectAll('path').remove();
+            // update traces on graph
+            for (var i in self.productObj.availableWindows.slice(0, endIndex)){
+                var window = self.productObj.availableWindows[i];
+                var tag = optLUT[window + ' ' + self.product];
+                console.log('Plotting: ', window, self.product, tag)
+                var dataObj = trans[tag]
+                
+                // add traces to graph
+                self.svg.append('path') 
+                    .attr('fill','none')
+                    .attr('stroke', 'black')
+                    .attr('d', self.dataLine(dataObj))
+                    .attr("clip-path", "url(#clipBox)")
+                    //.attr('stroke-dasharray', this.dashArray)
+            }
+        }
+
+    
 
     var productOptions = self.productSelect
         .selectAll('option')
@@ -276,6 +327,8 @@ var windowDict = {
     function showAdvancedWindows(){
         console.log(self.productObj['availableWindows']);
         self.advancedWindowDiv.classed('hidden', !self.advancedWindowDiv.classed('hidden'))
+        // plot traces of all windows
+        self.drawTraces(mode = 'all');
 
     }
 

@@ -7,7 +7,7 @@ var debug = 1;
  * 
  * legend generator?
  * switch control to top
- * add window selector
+ * add window select with multiple choices available
  * 
  */
 
@@ -89,6 +89,7 @@ optLUT = {
     '(BB-VS-NR)W Sona-2BV11' : 'Marana11(BB-VS-NR)',
     // sona 4.2B6
     '(BB-VS-NR)U Sona-4BV6' : 'OPT-14344' ,
+    '(BB-VS-NR)W Sona-4BV6' : 'OPT-14344' ,
     
 }
 
@@ -198,14 +199,18 @@ var colorDict = {
         .attr('class','svgDiv')
         
     // add extra QE display svg
-    self.svgQE = self.svgDiv
+    self.chartDivQE = self.svgDiv
     .append('div')
     .attr('class','chartDiv')
+
+    self.chartDivQE
+    .append('span')
+    .attr('class','chartHeadLabel')
     .text('Sensor Quantum Efficiency')
-    .append('svg')
+    
+    self.svgQE = self.chartDivQE.append('svg')
     .attr('width', self.canvasWidth)
     .attr('height', self.canvasHeight)
-
     
     // add window transmission SVG 
     self.svg = self.svgDiv
@@ -222,7 +227,7 @@ var colorDict = {
         .attr('id','clipBox')
         .append('rect')
         .attr('width', self.xScale(self.xAxisMax) - self.xScale(self.xAxisMin) )
-        .attr('height', self.yScale(self.yAxisMin + 0.5) - self.yScale(self.yAxisMax) )
+        .attr('height', self.yScale(self.yAxisMin + 0.2) - self.yScale(self.yAxisMax) )
         .attr('x', self.canvasMargin)
         .attr('y', self.canvasMargin/5)
 
@@ -296,7 +301,7 @@ for (var n in svgConfigs){
     yLabelG.attr('transform', `translate(15, ${self.yScale( (self.yAxisMax + self.yAxisMin) / 2)}), rotate(-90)`)
     yLabelG.append('text').text('Transmission, %').attr('text-anchor','middle').attr('class','axisLabel')
 
-    // add exes labels for sensor QE
+    // add axes labels for sensor QE
     self.qe.xLabelG = self.svgQE.append('g');
     self.qe.xLabelG.attr('transform', `translate(${self.qe.xScale( (self.xAxisMin + self.xAxisMax) / 2)}, ${self.qe.yScale(self.qe.yAxisMin) + 35})`)
     self.qe.xLabelG.append('text').text('Wavelength, nm').attr('text-anchor','middle').attr('class','axisLabel')
@@ -341,20 +346,21 @@ for (var n in svgConfigs){
     .attr('value','Product')
     .on('change', onChangeProduct)
 
-    // append an area to show default window
-    self.defaultWindowDiv = self.controlDiv.append('div').text('Default Window: ')
-    self.defaultWindowDisplay = self.defaultWindowDiv.append('span')
+    // create div to hold window selector 
+    self.windowDiv = self.controlDiv.append('div')
+    self.windowDiv.append('div').text('Window');
 
-    // append a button to show advanced options
-    self.advButton = self.controlDiv
-    .append('div')
-    .text('Show Additional Window Options')
-    .attr('class','advButton')
-    .on('click', showAdvancedWindows);
+    // append mutli-select for window
+    self.windowSelect = self.windowDiv
+    .append('select')
+    .attr('value','Product')
+    .attr('multiple', 'true')
+    .on('change', onChangeWindow)
+    
 
     // advanced window div
-    self.advancedWindowDiv = self.controlDiv.append('div').classed('hidden', true);
-    self.showAdvancedWindows = false;
+    //self.advancedWindowDiv = self.controlDiv.append('div').classed('hidden', true);
+    //self.showAdvancedWindows = false;
 
     // populate family options
     var familyOptions = self.familySelect
@@ -387,60 +393,56 @@ for (var n in svgConfigs){
         self.productObj = families[self.family][self.product];
         var defWind = self.productObj['defaultWindow'];
         var windDescr = windowDict[defWind];
+
+        // populate the window multi-select options
+        self.windowSelect.selectAll('option').remove();
+        var windowOptions = self.windowSelect
+            .selectAll('option')
+            .data(self.productObj['availableWindows']).enter()
+            .append('option')
+            .text(function (d) { return d; });
         
-        // update default window display
-        self.defaultWindowDisplay.text( self.productObj['mechanicalSpecification'] + defWind +  " : " + windDescr);
-
-        // hide the additional windows button if there is only one option
-        if(self.productObj['availableWindows'].length < 2){
-            self.advButton.style('display','none');
-        }
-        if(self.productObj['availableWindows'].length > 1){
-            self.advButton.style('display','block')
-        }
-
-        // add a list of additional windows
-        self.advancedWindowDiv.classed('hidden', true);
-        self.advancedWindowDiv.selectAll('div').remove();
-        self.advancedWindowDiv.selectAll('div')
-            .data(self.productObj['availableWindows'].slice(1,-1))
-            .enter()
-            .append('div')
-            .text( d =>  self.productObj['mechanicalSpecification'] +     d + ' - ' + windowDict[d])
-
-        self.drawTraces(mode = 'default');
+        //check the first (default) option
+        self.windowSelect.select('option').property('selected',true);
+        
+        onChangeWindow.call(self.windowSelect.node()); // fill in an initial value
+        //self.drawTraces(mode = 'default');
 
         }
+
+    // window pulldown callback
+    function onChangeWindow(){
+        console.log(this);
+        self.activeWindows = [];
+        selected = d3.select(this) // select the select
+            .selectAll("option:checked")  // select the selected values
+            .each(function() { 
+                self.activeWindows.push(this.value);
+                }); // for each of those, get its value
+        console.log(self.activeWindows) 
+        self.drawTraces(self.activeWindows)
+    }
 
         // draw traces method
-        self.drawTraces = function(mode = null){
-
-            // mode argument, default draws the first, default window,
-            // 'all' draws all the available windows
-            // i'll have to change this when I'm drawing one specific one at a time?
-            var endIndex = 0;
-            if (mode == 'default'){
-                endIndex = 1;
-            }
-            if (mode == 'all'){
-                endIndex = -1;
-            }
+        self.drawTraces = function(windowArray){
             // remove old traces from graph
 
             d3.selectAll('.legend').remove();
             self.legendG = self.svg.append('g').attr('class','legend')
-            self.legendG.attr('transform', `translate(${self.canvasWidth/2.5}, ${3*self.canvasHeight/5})`)
+            self.legendG.attr('transform', `translate(${self.canvasWidth/2.7 + 5}, ${3*self.canvasHeight/5})`)
             self.legendG.append('rect')
                 .attr('fill','white')
-                .attr('x',0)
-                .attr('y',0)
+                .attr('x',-5)
+                .attr('y',-4)
                 .attr('width', 200)
-                .attr('height', 50)
+                .attr('height', windowArray.length * 20 + 8)
+                .attr('stroke','black')
+                console.log(windowArray.length)
 
             self.svg.selectAll('path').remove();
             // update traces on graph
-            for (var i in self.productObj.availableWindows.slice(0, endIndex)){
-                var window = self.productObj.availableWindows[i];
+            for (var i in windowArray){
+                var window = windowArray[i];
                 var tag = optLUT[window + ' ' + self.product];
                 if (debug){
                     console.log('Plotting: ', window, self.product, tag)
@@ -450,7 +452,7 @@ for (var n in svgConfigs){
                 // add traces to graph
                 self.svg.append('path') 
                     .attr('fill','none')
-                    .attr('stroke', colorDict[self.productObj.availableWindows[i]])
+                    .attr('stroke', colorDict[windowArray[i]])
                     .attr('stroke-width', 3)
                     .attr('d', self.dataLine(dataObj))
                     .attr("clip-path", "url(#clipBox)")
@@ -459,20 +461,19 @@ for (var n in svgConfigs){
                 // add legend text entry to graph
                 var textEntry = self.legendG.append('text');
                 textEntry.text(windowDict[window]).attr('alignment-baseline','hanging')
-                textEntry.attr('x', 20)
+                textEntry.attr('x', 20).attr('y', i*20)
                 // add path entry to text
                 self.legendG.append('line')
                     .attr('x1',0)
                     .attr('x2',15)
-                    .attr('y1',10)
-                    .attr('y2',10)
+                    .attr('y1',10 + i*20)
+                    .attr('y2',10 + i*20)
                     .attr('stroke', colorDict[window])
                     .attr('stroke-width', 3)
                 // update legend bounding box to fit text
                 var legendBBox = d3.select('.legend').select('rect').node().getBBox();
                 var textBBox = textEntry.node().getBBox();
-                d3.select('.legend').select('rect').attr('width', Math.max(textBBox.width + 20, legendBBox.width))
-                d3.select('.legend').select('rect').attr('height', textBBox.height);
+                d3.select('.legend').select('rect').attr('width', Math.max(textBBox.width + 30, legendBBox.width))
 
                 // add legend entry
             }

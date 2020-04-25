@@ -4,10 +4,7 @@ var debug = 1;
 
 /**
  * to do
- * 
- * legend generator?
- * switch control to top
- * add window select with multiple choices available
+ * add list of products to window display with color codes
  * 
  */
 
@@ -215,13 +212,19 @@ var colorDict = {
     .attr('height', self.canvasHeight)
     
     // add window transmission SVG 
-    self.svg = self.svgDiv
+    self.chartDivTrans = self.svgDiv
     .append('div')
     .attr('class','chartDiv')
-    .text('Window Transmission')
-    .append('svg')
-    .attr('width', self.canvasWidth)
-    .attr('height', self.canvasHeight)
+
+    self.chartDivTrans
+        .append('span')
+        .attr('class', 'chartHeadLabel')
+        .text('Window Transmission')
+    
+    self.svg = self.chartDivTrans
+        .append('svg')
+        .attr('width', self.canvasWidth)
+        .attr('height', self.canvasHeight)
 
 
     // add clip path for window transmission
@@ -359,6 +362,8 @@ for (var n in svgConfigs){
     .attr('multiple', 'true')
     .on('change', onChangeWindow)
     
+    // add a div to display orderable part codes
+    self.codeList = self.controlDiv.append('div').text('Order As:')
 
     // advanced window div
     //self.advancedWindowDiv = self.controlDiv.append('div').classed('hidden', true);
@@ -402,7 +407,8 @@ for (var n in svgConfigs){
             .selectAll('option')
             .data(self.productObj['availableWindows']).enter()
             .append('option')
-            .text(function (d) { return d; });
+            .text(function (d) { return windowDict[d] + ' - ' + d; })
+            .attr('value', function (d) { return d; });
         
         //check the first (default) option
         self.windowSelect.select('option').property('selected',true);
@@ -478,9 +484,18 @@ for (var n in svgConfigs){
                 var legendBBox = d3.select('.legend').select('rect').node().getBBox();
                 var textBBox = textEntry.node().getBBox();
                 d3.select('.legend').select('rect').attr('width', Math.max(textBBox.width + 30, legendBBox.width))
-
-                // add legend entry
             }
+                // remove previous windows
+                self.codeList.selectAll('div').remove();
+                // add window codes
+                self.codeList
+                    .selectAll('div')
+                    .data(windowArray)
+                    .enter()
+                    .append('div')
+                    .text(d=>self.product + ' ' + self.productObj.mechanicalSpecification + d)
+                    .style('color', d=>colorDict[d])   
+                    .style('font-weight',700)  
         }
 
         // draw QE method

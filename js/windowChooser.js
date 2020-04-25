@@ -22,7 +22,8 @@ var families = {
             'displayName' : 'Marana 4.2BV-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U' ,
-            'availableWindows' : [ '(BB-VS-NR)U','(BB-VV-NR)U', '(VS-NR-ENH)W']
+            'availableWindows' : [ '(BB-VS-NR)U','(BB-VV-NR)U', '(VS-NR-ENH)W'],
+            'sensorQE' : qe['Marana TVISB'],
         },
 
         'Marana-4BU11' : 
@@ -30,7 +31,8 @@ var families = {
             'displayName' : 'Marana 4.2BU-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VV-NR)U',
-            'availableWindows' : ['(BB-VV-NR)U']
+            'availableWindows' : ['(BB-VV-NR)U'],
+            'sensorQE' : qe['Marana UV'],
         },
 
         'Marana-4VB6' : 
@@ -408,6 +410,9 @@ for (var n in svgConfigs){
         onChangeWindow.call(self.windowSelect.node()); // fill in an initial value
         //self.drawTraces(mode = 'default');
 
+        // draw the QE
+        self.drawQE();
+
         }
 
     // window pulldown callback
@@ -437,7 +442,6 @@ for (var n in svgConfigs){
                 .attr('width', 200)
                 .attr('height', windowArray.length * 20 + 8)
                 .attr('stroke','black')
-                console.log(windowArray.length)
 
             self.svg.selectAll('path').remove();
             // update traces on graph
@@ -477,6 +481,60 @@ for (var n in svgConfigs){
 
                 // add legend entry
             }
+        }
+
+        // draw QE method
+        self.drawQE = function(){
+            // remove old traces from graph
+
+            self.svgQE.selectAll('.legend').remove();
+            self.qe.legendG = self.svgQE.append('g').attr('class','legend')
+            
+            self.qe.legendG.attr('transform', `translate(${self.canvasWidth/2.7 + 5}, ${3*self.canvasHeight/5})`)
+            
+            /** 
+            self.qe.legendG.append('rect')
+                .attr('fill','white')
+                .attr('x',-5)
+                .attr('y',-4)
+                .attr('width', 200)
+                .attr('height', 1 * 20 + 8)
+                .attr('stroke','black')
+                */
+            
+            self.svgQE.selectAll('path').remove();
+            // update traces on graph
+                var dataObj = self.productObj.sensorQE; // data to plot
+                console.log(self.qe.dataLine(dataObj))
+                // add traces to graph
+                self.svgQE.append('path') 
+                    .attr('fill','none')
+                    .attr('stroke', 'black')
+                    .attr('stroke-width', 3)
+                    .attr('d', self.qe.dataLine(dataObj))
+                    .attr("clip-path", "url(#clipBox)")
+                    //.attr('stroke-dasharray', this.dashArray)
+                
+                /** leaving this inactive for now
+                // add legend text entry to graph
+                var textEntry = self.legendG.append('text');
+                textEntry.text(windowDict[window]).attr('alignment-baseline','hanging')
+                textEntry.attr('x', 20).attr('y', i*20)
+                // add path entry to text
+                self.qe.legendG.append('line')
+                    .attr('x1',0)
+                    .attr('x2',15)
+                    .attr('y1',10 + i*20)
+                    .attr('y2',10 + i*20)
+                    .attr('stroke', 'black')
+                    .attr('stroke-width', 3)
+                // update legend bounding box to fit text
+                var legendBBox = self.svgQE.select('.legend').select('rect').node().getBBox();
+                var textBBox = textEntry.node().getBBox();
+                d3.select('.legend').select('rect').attr('width', Math.max(textBBox.width + 30, legendBBox.width))
+                */
+                // add legend entry
+            
         }
 
     var productOptions = self.productSelect

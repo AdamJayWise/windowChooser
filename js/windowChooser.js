@@ -509,7 +509,7 @@ for (var n in svgConfigs){
                 // add traces to graph
                 self.svgQE.append('path') 
                     .attr('fill','none')
-                    .attr('stroke', 'black')
+                    .attr('stroke', 'darkblue')
                     .attr('stroke-width', 3)
                     .attr('d', self.qe.dataLine(dataObj))
                     .attr("clip-path", "url(#clipBox)")

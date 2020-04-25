@@ -49,7 +49,8 @@ var families = {
             'displayName' : 'Sona 4.2B-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U',
-            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W']
+            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W'],
+            'sensorQE' : qe['Marana TVISB'],
         },
 
         'Sona-2BV11' : 
@@ -57,7 +58,8 @@ var families = {
             'displayName' : 'Sona 2.0B-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U',
-            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W']
+            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W'],
+            'sensorQE' : qe['Marana TVISB'],
         },
 
         'Sona-4BV6' : 
@@ -115,9 +117,10 @@ var colorDict = {
     self.family = ''; // this is the current product family, e.g. Sona of the view
     self.product = ''; // this is the specific product of the view
     self.productObj = {}; // this is the json object with the rest of the prouct config up in there
-    self.canvasWidth = 500; // chart canvas width in pixels
+    self.canvasWidth = 400; // chart canvas width in pixels
     self.canvasHeight = 300; // chart canvas height in pixels
     self.canvasMargin = 50; // svg margin in pixels
+    self.canvassBumper = 35;
     self.xTicks = [];
     self.yTicks = [50,60,70,80,90,100];
     self.yAxisMin = 50;
@@ -134,7 +137,7 @@ var colorDict = {
     // generate scales and axes including formatting for the window axis
     self.xScale = d3.scaleLinear()
                     .domain([self.xAxisMin, self.xAxisMax])
-                    .range([self.canvasMargin, self.canvasWidth-self.canvasMargin])
+                    .range([self.canvasMargin, self.canvasWidth-self.canvasMargin + self.canvassBumper])
                     .clamp(true)
 
     self.yScale = d3.scaleLinear()
@@ -165,7 +168,7 @@ var colorDict = {
 
     self.qe.xScale = d3.scaleLinear()
                     .domain([self.xAxisMin, self.xAxisMax])
-                    .range([self.canvasMargin, self.canvasWidth-self.canvasMargin])
+                    .range([self.canvasMargin, self.canvasWidth-self.canvasMargin + self.canvassBumper])
                     .clamp(true)
 
     self.qe.yScale = d3.scaleLinear()
@@ -225,7 +228,6 @@ var colorDict = {
         .append('svg')
         .attr('width', self.canvasWidth)
         .attr('height', self.canvasHeight)
-
 
     // add clip path for window transmission
     self.svg.append('clipPath')
@@ -440,13 +442,13 @@ for (var n in svgConfigs){
 
             d3.selectAll('.legend').remove();
             self.legendG = self.svg.append('g').attr('class','legend')
-            self.legendG.attr('transform', `translate(${self.canvasWidth/2.7 + 5}, ${3*self.canvasHeight/5})`)
+            self.legendG.attr('transform', `translate(${self.canvasWidth/3.9 + 5}, ${3*self.canvasHeight/5})`)
             self.legendG.append('rect')
                 .attr('fill','white')
                 .attr('x',-5)
                 .attr('y',-4)
                 .attr('width', 200)
-                .attr('height', windowArray.length * 20 + 8)
+                .attr('height', windowArray.length * 12 + 8)
                 .attr('stroke','black')
 
             self.svg.selectAll('path').remove();
@@ -467,23 +469,30 @@ for (var n in svgConfigs){
                     .attr('d', self.dataLine(dataObj))
                     .attr("clip-path", "url(#clipBox)")
                     //.attr('stroke-dasharray', this.dashArray)
+
+                // raise the white box
+                
                 
                 // add legend text entry to graph
                 var textEntry = self.legendG.append('text');
                 textEntry.text(windowDict[window]).attr('alignment-baseline','hanging')
-                textEntry.attr('x', 20).attr('y', i*20)
+                var legendFontSize = 12;
+                textEntry.attr('x', 20).attr('y', i*12).attr('font-size', legendFontSize)
                 // add path entry to text
                 self.legendG.append('line')
                     .attr('x1',0)
                     .attr('x2',15)
-                    .attr('y1',10 + i*20)
-                    .attr('y2',10 + i*20)
+                    .attr('y1',legendFontSize/2 + i*legendFontSize)
+                    .attr('y2',legendFontSize/2 + i*legendFontSize)
                     .attr('stroke', colorDict[window])
                     .attr('stroke-width', 3)
                 // update legend bounding box to fit text
                 var legendBBox = d3.select('.legend').select('rect').node().getBBox();
                 var textBBox = textEntry.node().getBBox();
-                d3.select('.legend').select('rect').attr('width', Math.max(textBBox.width + 30, legendBBox.width))
+                
+                d3.select('.legend').select('rect').attr('width', Math.max(textBBox.width + 30, legendBBox.width));
+                var legendBox = d3.select('.legend').select('rect');
+                self.legendG.attr('transform', `translate(${self.xScale(self.xAxisMax) - legendBox.attr('width')}, ${3*self.canvasHeight/5})`)  
             }
                 // remove previous windows
                 self.codeList.selectAll('div').remove();
@@ -496,6 +505,8 @@ for (var n in svgConfigs){
                     .text(d=>self.product + ' ' + self.productObj.mechanicalSpecification + d)
                     .style('color', d=>colorDict[d])   
                     .style('font-weight',700)  
+
+                    self.legendG.raise()
         }
 
         // draw QE method

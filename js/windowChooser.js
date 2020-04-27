@@ -12,6 +12,19 @@ var debug = 1;
 var families = {
     // sona product family
 
+    'iKon L' : {
+        // models 
+        'DW936N-#BV' : 
+        {
+            'displayName' : 'iKon L DW936N-#BV',
+            'mechanicalSpecification' : 'WN60FS',
+            'defaultWindow' : '(BB-VS-NR)U' ,
+            'availableWindows' : ['(BB-VS-NR)U', '(BB-VV-NR)U',],
+            'sensorQE' : qe['BV'],
+        },
+
+    },
+
     'Marana' : {
         // Sona models 
         'Marana 4BV-11' : 
@@ -91,6 +104,10 @@ optLUT = {
     // sona 4.2B6
     '(BB-VS-NR)U Sona-4BV6' : 'OPT-14344' ,
     '(BB-VS-NR)W Sona-4BV6' : 'OPT-14344' ,
+
+    //ikon - L
+    '(BB-VV-NR)U DW936N-#BV' : '(BB-VV-NR)',
+    '(BB-VS-NR)U DW936N-#BV' : 'OPT-00486'
     
 }
 
@@ -337,7 +354,7 @@ for (var n in svgConfigs){
 
 
      // append GUI elements
-    self.familyDiv = self.controlDiv.append('div').text('Family')
+    self.familyDiv = self.controlDiv.append('div').text('Family - ')
     
     self.familySelect = self.familyDiv.append('select')
         .attr('value', 'family')
@@ -345,7 +362,7 @@ for (var n in svgConfigs){
         .on('change', onChangeFamily)
 
     // append product div and pull down
-    self.productDiv = self.controlDiv.append('Div').text('Product:')
+    self.productDiv = self.controlDiv.append('div').text('Product - ')
 
     // append select for product
     self.productSelect = self.productDiv
@@ -353,9 +370,13 @@ for (var n in svgConfigs){
     .attr('value','Product')
     .on('change', onChangeProduct)
 
+    // append div to show default window
+    self.defaultWindowDisplay = self.controlDiv.append('div').text('Default Window - ');
+    self.defaultWindowDisplay.append('span').attr('id','defaultWindowDisplay');
+
     // create div to hold window selector 
     self.windowDiv = self.controlDiv.append('div')
-    self.windowDiv.append('div').text('Window');
+    self.windowDiv.append('div').text('All Window Options');
 
     // append mutli-select for window
     self.windowSelect = self.windowDiv
@@ -402,6 +423,9 @@ for (var n in svgConfigs){
         self.productObj = families[self.family][self.product];
         var defWind = self.productObj['defaultWindow'];
         var windDescr = windowDict[defWind];
+
+        // update the default window display
+        d3.select('#defaultWindowDisplay').text(windowDict[defWind] + ' ' + defWind)
 
         // populate the window multi-select options
         self.windowSelect.selectAll('option').remove();
@@ -531,11 +555,10 @@ for (var n in svgConfigs){
             self.svgQE.selectAll('path').remove();
             // update traces on graph
                 var dataObj = self.productObj.sensorQE; // data to plot
-                console.log(self.qe.dataLine(dataObj))
                 // add traces to graph
                 self.svgQE.append('path') 
                     .attr('fill','none')
-                    .attr('stroke', 'darkblue')
+                    .attr('stroke', '#666')
                     .attr('stroke-width', 3)
                     .attr('d', self.qe.dataLine(dataObj))
                     .attr("clip-path", "url(#clipBox)")

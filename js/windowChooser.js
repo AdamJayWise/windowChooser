@@ -108,7 +108,6 @@ optLUT = {
     //ikon - L
     '(BB-VV-NR)U DW936N-#BV' : '(BB-VV-NR)',
     '(BB-VS-NR)U DW936N-#BV' : 'OPT-00486'
-    
 }
 
 var windowDict = {
@@ -124,6 +123,10 @@ var colorDict = {
     '(BB-VV-NR)U' : 'green',
     '(VS-NR-ENH)W' : 'blue'
 }
+
+
+// onClick callback for todo
+d3.select('.toDO').on('click', function(){d3.select(this).remove()})
 
 // defines the main object, a View, which is a spec sheet type thing showing controls and a graph for QE and window trans
  function View(paramObj){
@@ -230,6 +233,14 @@ var colorDict = {
     self.svgQE = self.chartDivQE.append('svg')
     .attr('width', self.canvasWidth)
     .attr('height', self.canvasHeight)
+
+    // add button to bottom of window transmission svg div
+    self.sensorCSVButton = self.chartDivQE
+        .append('button')
+        .text('Download to CSV')
+        .on('click', function(){
+            self.downloadData(`${self.product} Sensor QE`,self.productObj.sensorQE)
+        });
     
     // add window transmission SVG 
     self.chartDivTrans = self.svgDiv
@@ -245,6 +256,16 @@ var colorDict = {
         .append('svg')
         .attr('width', self.canvasWidth)
         .attr('height', self.canvasHeight)
+
+    // add button to bottom of window transmission svg div
+    self.windowCSVButton = self.chartDivTrans
+        .append('button')
+        .text('Download to CSV')
+        .on('click', function(){
+            self.activeWindows.forEach(function(window){
+                self.downloadData(`${self.product + ' ' + window} Window Transmission`, trans[optLUT[window + ' ' + self.product]])
+            })
+        })
 
     // add clip path for window transmission
     self.svg.append('clipPath')
@@ -583,6 +604,39 @@ for (var n in svgConfigs){
                 d3.select('.legend').select('rect').attr('width', Math.max(textBBox.width + 30, legendBBox.width))
                 */
                 // add legend entry
+
+    // a method to marshall data for a single line a plot into an exportable CSV string 
+    this.parseData = function(name = 'y', data){
+        var outputData = []
+        var line = []
+        var headings = ['Wavelength (nm)', name]
+        outputData.push(headings.join(','))
+
+        for (var l = 0; l < data.length; l++){
+            line = [data[l].x, data[l].y];
+            outputData.push(line.join(','))
+        }
+        return outputData.join('\n')    
+    }
+
+    //method to download data in the chart from the web page as csv
+    self.downloadData = function (name, data) {
+        var a = document.createElement('a');
+        var mimeType = 'application/octet-stream';
+        var data = self.parseData(name, data);
+        var fileName = `${name}.csv`
+        
+        if (URL && 'download' in a) { 
+            a.href = URL.createObjectURL(new Blob([data], {
+              type: mimeType
+            }));
+            a.setAttribute('download', fileName);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+         
+        }
+    }
             
         }
 

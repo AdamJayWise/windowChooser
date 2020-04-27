@@ -12,6 +12,288 @@ var debug = 1;
 var families = {
     // sona product family
 
+    'iKon-XL' : {
+        'XL-EA02-XX (iKon XL 230 BB)' : 
+        {
+            'displayName' : 'XL-EA02-XX (iKon XL 230 BB)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BBikonXL-100C'],
+        },
+
+
+        'XL-EA02-CS (iKon XL 230 BB)' : 
+        {
+            'displayName' : 'XL-EA02-CS (iKon XL 230 BB)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BBikonXL-100C'],
+        },
+
+
+        'XL-EA02-D0 (iKon XL 230 BB)' : 
+        {
+            'displayName' : 'XL-EA02-D0 (iKon XL 230 BB)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BBikonXL-100C'],
+        },
+
+
+        'XL-EA02-DS (iKon XL 230 BB)' : 
+        {
+            'displayName' : 'XL-EA02-DS (iKon XL 230 BB)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BBikonXL-100C'],
+        },
+
+
+        'XL-EA01-XX (iKon XL 230 BV)' : 
+        {
+            'displayName' : 'XL-EA01-XX (iKon XL 230 BV)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BV'],
+        },
+
+
+        'XL-EA01-CS (iKon XL 230 BV)' : 
+        {
+            'displayName' : 'XL-EA01-CS (iKon XL 230 BV)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BV'],
+        },
+
+
+        'XL-EA01-D0 (iKon XL 230 BV)' : 
+        {
+            'displayName' : 'XL-EA01-D0 (iKon XL 230 BV)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BV'],
+        },
+
+
+        'XL-EA01-DS (iKon XL 230 BV)' : 
+        {
+            'displayName' : 'XL-EA01-DS (iKon XL 230 BV)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BV'],
+        },
+
+
+        'XL-EA04-C0 (iKon XL 231 BB)' : 
+        {
+            'displayName' : 'XL-EA04-C0 (iKon XL 231 BB)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BBikonXL-100C'],
+        },
+
+
+        'XL-EA04-CS (iKon XL 231 BB)' : 
+        {
+            'displayName' : 'XL-EA04-CS (iKon XL 231 BB)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BBikonXL-100C'],
+        },
+
+
+        'XL-EA04-D0 (iKon XL 231 BB)' : 
+        {
+            'displayName' : 'XL-EA04-D0 (iKon XL 231 BB)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BBikonXL-100C'],
+        },
+
+
+        'XL-EA04-DS (iKon XL 231 BB)' : 
+        {
+            'displayName' : 'XL-EA04-DS (iKon XL 231 BB)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BBikonXL-100C'],
+        },
+
+
+        'XL-EA05-XX (iKon XL 231 BEX2)' : 
+        {
+            'displayName' : 'XL-EA05-XX (iKon XL 231 BEX2)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BEX2'],
+        },
+
+
+        'XL-EA05-CS (iKon XL 231 BEX2)' : 
+        {
+            'displayName' : 'XL-EA05-CS (iKon XL 231 BEX2)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BEX2'],
+        },
+
+
+        'XL-EA05-D0 (iKon XL 231 BEX2)' : 
+        {
+            'displayName' : 'XL-EA05-D0 (iKon XL 231 BEX2)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BEX2'],
+        },
+
+
+        'XL-EA05-DS (iKon XL 231 BEX2)' : 
+        {
+            'displayName' : 'XL-EA05-DS (iKon XL 231 BEX2)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BEX2'],
+        },
+
+
+        'XL-EA07-C0 (iKon XL 231 BEX2-DD)' : 
+        {
+            'displayName' : 'XL-EA07-C0 (iKon XL 231 BEX2-DD)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BEX2-DD'],
+        },
+
+
+        'XL-EA07-CS (iKon XL 231 BEX2-DD)' : 
+        {
+            'displayName' : 'XL-EA07-CS (iKon XL 231 BEX2-DD)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BEX2-DD'],
+        },
+
+
+        'XL-EA07-D0 (iKon XL 231 BEX2-DD)' : 
+        {
+            'displayName' : 'XL-EA07-D0 (iKon XL 231 BEX2-DD)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BEX2-DD'],
+        },
+
+
+        'XL-EA07-DS (iKon XL 231 BEX2-DD)' : 
+        {
+            'displayName' : 'XL-EA07-DS (iKon XL 231 BEX2-DD)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BEX2-DD'],
+        },
+
+
+        'XL-EA06-C0 (iKon XL 231 BR-DD)' : 
+        {
+            'displayName' : 'XL-EA06-C0 (iKon XL 231 BR-DD)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BR-DD'],
+        },
+
+
+        'XL-EA06-CS (iKon XL 231 BR-DD)' : 
+        {
+            'displayName' : 'XL-EA06-CS (iKon XL 231 BR-DD)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BR-DD'],
+        },
+
+
+        'XL-EA06-D0 (iKon XL 231 BR-DD)' : 
+        {
+            'displayName' : 'XL-EA06-D0 (iKon XL 231 BR-DD)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BR-DD'],
+        },
+
+
+        'XL-EA06-DS (iKon XL 231 BR-DD)' : 
+        {
+            'displayName' : 'XL-EA06-DS (iKon XL 231 BR-DD)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BR-DD'],
+        },
+
+
+        'XL-EA03-C0 (iKon XL 231 BV)' : 
+        {
+            'displayName' : 'XL-EA03-C0 (iKon XL 231 BV)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BV'],
+        },
+
+
+        'XL-EA03-CS (iKon XL 231 BV)' : 
+        {
+            'displayName' : 'XL-EA03-CS (iKon XL 231 BV)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BV'],
+        },
+
+
+        'XL-EA03-D0 (iKon XL 231 BV)' : 
+        {
+            'displayName' : 'XL-EA03-D0 (iKon XL 231 BV)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BV'],
+        },
+
+
+        'XL-EA03-DS (iKon XL 231 BV)' : 
+        {
+            'displayName' : 'XL-EA03-DS (iKon XL 231 BV)',
+            'mechanicalSpecification' : 'WN--FS',
+            'defaultWindow' : '(BB-VS-NR)U',
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['BV'],
+        },
+
+    },
+
     'iKon L' : {
         // models 
         'DW936N-#BV' : 
@@ -50,7 +332,8 @@ var families = {
             'displayName' : 'Marana 4.2BV-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U',
-            'availableWindows' : ['(BB-VS-NR)U']
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['Sona6'],
         },
 
     },
@@ -80,7 +363,8 @@ var families = {
             'displayName' : 'Sona 4.2B-6',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U',
-            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W'] 
+            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W'],
+            'sensorQE' : qe['Sona6'],
         }
 
     }
@@ -90,24 +374,59 @@ var families = {
 optLUT = {
     // marana 4VB6
     '(BB-VS-NR)U Marana-4VB6' : 'OPT-14344',
+    
     // marana 4BV-11
-    '(BB-VS-NR)U Marana 4BV-11' : 'Marana11(BB-VS-NR)',
+    '(BB-VS-NR)U Marana 4BV-11' : 'OPT-13561',
     '(BB-VV-NR)U Marana 4BV-11' : '(BB-VV-NR)',
     '(VS-NR-ENH)W Marana 4BV-11' : 'OPT-15718',
+    
     //marana 4BU-11
     '(BB-VV-NR)U Marana-4BU11' : '(BB-VV-NR)',
+    
     // Sona 4/2BV11
-    '(BB-VS-NR)U Sona-4BV11' : 'Marana11(BB-VS-NR)',
-    '(BB-VS-NR)W Sona-4BV11' : 'Marana11(BB-VS-NR)',
-    '(BB-VS-NR)U Sona-2BV11' : 'Marana11(BB-VS-NR)',
-    '(BB-VS-NR)W Sona-2BV11' : 'Marana11(BB-VS-NR)',
+    '(BB-VS-NR)U Sona-4BV11' : 'OPT-13561',
+    '(BB-VS-NR)W Sona-4BV11' : 'OPT-13561',
+    '(BB-VS-NR)U Sona-2BV11' : 'OPT-13561',
+    '(BB-VS-NR)W Sona-2BV11' : 'OPT-13561',
+    
     // sona 4.2B6
     '(BB-VS-NR)U Sona-4BV6' : 'OPT-14344' ,
     '(BB-VS-NR)W Sona-4BV6' : 'OPT-14344' ,
 
     //ikon - L
     '(BB-VV-NR)U DW936N-#BV' : '(BB-VV-NR)',
-    '(BB-VS-NR)U DW936N-#BV' : 'OPT-00486'
+    '(BB-VS-NR)U DW936N-#BV' : 'OPT-00486',
+    
+    //ikon xl
+    '(BB-VS-NR)U XL-EA02-XX (iKon XL 230 BB)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA02-CS (iKon XL 230 BB)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA02-D0 (iKon XL 230 BB)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA02-DS (iKon XL 230 BB)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA01-XX (iKon XL 230 BV)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA01-CS (iKon XL 230 BV)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA01-D0 (iKon XL 230 BV)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA01-DS (iKon XL 230 BV)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA04-C0 (iKon XL 231 BB)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA04-CS (iKon XL 231 BB)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA04-D0 (iKon XL 231 BB)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA04-DS (iKon XL 231 BB)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA05-XX (iKon XL 231 BEX2)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA05-CS (iKon XL 231 BEX2)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA05-D0 (iKon XL 231 BEX2)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA05-DS (iKon XL 231 BEX2)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA07-C0 (iKon XL 231 BEX2-DD)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA07-CS (iKon XL 231 BEX2-DD)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA07-D0 (iKon XL 231 BEX2-DD)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA07-DS (iKon XL 231 BEX2-DD)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA06-C0 (iKon XL 231 BR-DD)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA06-CS (iKon XL 231 BR-DD)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA06-D0 (iKon XL 231 BR-DD)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA06-DS (iKon XL 231 BR-DD)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA03-C0 (iKon XL 231 BV)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA03-CS (iKon XL 231 BV)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA03-D0 (iKon XL 231 BV)' : 'OPT-13561',
+    '(BB-VS-NR)U XL-EA03-DS (iKon XL 231 BV)' : 'OPT-13561',
+
 }
 
 var windowDict = {

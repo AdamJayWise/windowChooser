@@ -398,17 +398,7 @@ for (var n in svgConfigs){
     // populate family options
     var familyOptions = self.familySelect
         .selectAll('option')
-        .data( Object.keys(families).sort(function(a,b){
-            if (a.toUpperCase() > b.toUpperCase()){
-                return 1
-            }
-            if (a.toUpperCase() < b.toUpperCase()){
-                return -1
-            }
-            if (a.toUpperCase() == b.toUpperCase()){
-                return 0
-            }
-        })).enter()
+        .data( Object.keys(families)).enter()
         .append('option')
         .text(function (d) { return d; });
 

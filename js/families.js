@@ -405,3 +405,37 @@ var families = {
     }
 }
 
+var fkeys = Object.keys(families).sort(function(a,b){
+    if (a.toUpperCase() > b.toUpperCase()){
+        return 1
+    }
+    if (a.toUpperCase() < b.toUpperCase()){
+        return -1
+    }
+    if (a.toUpperCase() == b.toUpperCase()){
+        return 0
+    }
+})
+
+function sortObj(o){
+    var keys = Object.keys(o).sort(function(a,b){
+        if (a.toUpperCase() > b.toUpperCase()){
+            return 1
+        }
+        if (a.toUpperCase() < b.toUpperCase()){
+            return -1
+        }
+        if (a.toUpperCase() == b.toUpperCase()){
+            return 0
+        }
+    });
+
+    var output = {};
+    keys.forEach(function(k){
+        output[k] = o[k];
+    })
+
+    return output;
+}
+
+families = sortObj(families);

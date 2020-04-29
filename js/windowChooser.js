@@ -1,7 +1,10 @@
 console.log("windowChooser - (C) Adam Wise 2020")
 
+// print debug info to console
 var debug = 1;
-var plotInterp = 1;
+
+// should interpolated window * QE plots be shown?
+var plotInterp = 0;
 
 /**
  * to do
@@ -384,13 +387,26 @@ for (var n in svgConfigs){
 
     // append mutli-select for window
     self.windowSelect = self.windowDiv
-    .append('select')
-    .attr('value','Product')
-    .attr('multiple', 'true')
-    .on('change', onChangeWindow)
+        .append('select')
+        .attr('value','Product')
+        .attr('multiple', 'true')
+        .on('change', onChangeWindow)
     
     // add a div to display orderable part codes
     self.codeList = self.controlDiv.append('div').text('Order As:')
+
+    self.windowQeButtonDiv = self.controlDiv.append('div').classed('interpCheckBox', true);
+    self.windowQeButtonCheckBox = self.windowQeButtonDiv
+        .append('input')
+        .attr('type','checkbox')
+        .on('change', function(){
+            plotInterp = !plotInterp;
+            self.drawQE();
+        });
+    self.windowQeButtonDiv
+        .append('span')
+        .text('Show Effect of Window on Sensor Quantum Efficiency')
+
 
     // advanced window div
     //self.advancedWindowDiv = self.controlDiv.append('div').classed('hidden', true);
@@ -578,7 +594,7 @@ for (var n in svgConfigs){
                             .attr('fill','none')
                             .attr('stroke', colorDict[self.activeWindows[w]])
                             .attr('stroke-width', 3)
-                            .attr('stroke-opacity', 0.3)
+                            .attr('stroke-opacity', 0.4)
                             .attr('stroke-dasharray', strokeDict[self.activeWindows[w].slice(-1)])
                             .attr('d', self.qe.dataLine( interpZip(dataObj, trans[optLUT[self.activeWindows[w] + ' ' + self.product]]) ))
                             .attr("clip-path", "url(#clipBox)")

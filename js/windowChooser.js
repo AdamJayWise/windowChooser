@@ -1,6 +1,7 @@
 console.log("windowChooser - (C) Adam Wise 2020")
 
 var debug = 1;
+var plotInterp = 1;
 
 /**
  * to do
@@ -445,8 +446,7 @@ for (var n in svgConfigs){
         onChangeWindow.call(self.windowSelect.node()); // fill in an initial value
         //self.drawTraces(mode = 'default');
 
-        // draw the QE
-        self.drawQE();
+
 
         }
 
@@ -460,6 +460,10 @@ for (var n in svgConfigs){
                 self.activeWindows.push(this.value);
                 }); // for each of those, get its value
         console.log(self.activeWindows) 
+        
+        // draw the QE
+        self.drawQE();
+        
         self.drawTraces(self.activeWindows)
     }
 
@@ -567,6 +571,19 @@ for (var n in svgConfigs){
                     .attr('stroke-width', 3)
                     .attr('d', self.qe.dataLine(dataObj))
                     .attr("clip-path", "url(#clipBox)")
+
+                if(plotInterp){
+                    for (var w in self.activeWindows){
+                        self.svgQE.append('path') 
+                            .attr('fill','none')
+                            .attr('stroke', colorDict[self.activeWindows[w]])
+                            .attr('stroke-width', 3)
+                            .attr('stroke-opacity', 0.3)
+                            .attr('stroke-dasharray', strokeDict[self.activeWindows[w].slice(-1)])
+                            .attr('d', self.qe.dataLine( interpZip(dataObj, trans[optLUT[self.activeWindows[w] + ' ' + self.product]]) ))
+                            .attr("clip-path", "url(#clipBox)")
+                    }
+                }
                     //.attr('stroke-dasharray', this.dashArray)
                 
                 /** leaving this inactive for now

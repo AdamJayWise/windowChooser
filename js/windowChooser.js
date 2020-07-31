@@ -17,6 +17,16 @@ var plotInterp = 0;
 // add window + camera => transmission graph lookup table here  
 optLUT = {
 
+    // ixon
+    '(BB-VS-NR)W DU-888U3-CS0-#BV' : 'OPT-00486',
+    '(BB-VS-NR)U DU-888U3-CS0-#BV' : 'OPT-00486',
+    '(NUV-ENH)U DU-888U3-CS0-#BV' : '(NUV-ENH)',
+    '(VS-NR-ENH)W DU-888U3-CS0-#BV' : 'OPT-15718',
+    '(BB-VV-NR)W DU-888U3-CS0-#BV' : '(BB-VV-NR)',
+    '(BB-VV-NR)U DU-888U3-CS0-#BV' : '(BB-VV-NR)',
+       
+
+
     // zyla
     '(BB-VS-NR)U ZYLA-5.5-XXX(-X)' : 'OPT-13561',
     '(BB-VS-NR)U ZYLA-4.2P-XXX(-X)' : 'OPT-13561',
@@ -94,7 +104,8 @@ var windowDict = {
     '(BB-VV-NR)U' : 'Broadband VUV-NIR, Unwedged',
     '(BB-VV-NR)W' : 'Broadband VUV-NIR, Wedged',
     '(VS-NR-ENH)W' : 'VIS-NIR Enhanced, Wedged',
-    '(VS-NR-ENH)U' : 'VIS-NIR Enhanced, Unwedged'
+    '(VS-NR-ENH)U' : 'VIS-NIR Enhanced, Unwedged',
+    '(NUV-ENH)U' : 'Near UV Enhanced, Unwedged',
 }
 
 var colorDict = {
@@ -102,7 +113,8 @@ var colorDict = {
     '(BB-VS-NR)W' : 'red',
     '(BB-VV-NR)U' : 'green',
     '(BB-VV-NR)W' : 'yellowgreen',
-    '(VS-NR-ENH)W' : 'blue'
+    '(VS-NR-ENH)W' : 'blue',
+    '(NUV-ENH)U' : 'cyan',
 }
 
 var strokeDict = {
@@ -133,6 +145,8 @@ d3.select('.toDO').on('click', function(){d3.select(this).remove()})
     self.yAxisMax = 100;
     self.xAxisMin = 100;
     self.xAxisMax = 1100;
+    self.standardColor = '#9de070';
+    self.optionColor = '#e8cc51';
 
     // auto generate x ticks
     for (var i = 0; i<12; i++){
@@ -383,7 +397,22 @@ for (var n in svgConfigs){
 
     // create div to hold window selector 
     self.windowDiv = self.controlDiv.append('div')
-    self.windowDiv.append('div').text('All Window Options');
+    self.windowKeyDiv = self.windowDiv.append('div').html('Available Windows')
+        
+    self.windowKeyDiv.append('span')
+    .text(' (')
+    self.windowKeyDiv.append('span')
+        .classed('optionKey', true)
+        .style('color', self.standardColor )
+        .text(' Standard ')
+    self.windowKeyDiv.append('span')
+    .text(',')
+    self.windowKeyDiv.append('span')
+        .text(' Option ')
+        .classed('optionKey', true)
+        .style('color', self.optionColor)
+    self.windowKeyDiv.append('span')
+        .text(')')
 
     // append mutli-select for window
     self.windowSelect = self.windowDiv
@@ -454,7 +483,11 @@ for (var n in svgConfigs){
             .data(self.productObj['availableWindows']).enter()
             .append('option')
             .text(function (d) { return windowDict[d] + ' - ' + d; })
-            .attr('value', function (d) { return d; });
+            .attr('value', function (d) { return d; })
+            .style('background-color', function(d,i){
+                if (i==0) return self.standardColor;
+                if (i>0) return self.optionColor;
+            });
         
         //check the first (default) option
         self.windowSelect.select('option').property('selected',true);
@@ -516,6 +549,10 @@ for (var n in svgConfigs){
                     .attr('d', self.dataLine(dataObj))
                     .attr('stroke-dasharray', strokeDict[window.slice(-1)])
                     .attr("clip-path", "url(#clipBox)")
+                    .on('mouseenter', function(){
+                        console.log('mouseEnter')
+                        console.log(d3.event.x, d3.event.y)
+                    })
                     //.attr('stroke-dasharray', this.dashArray)
 
                 // raise the white box

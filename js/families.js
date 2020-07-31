@@ -1,6 +1,23 @@
 // json structure of the product families
 var families = {
 
+    // ixon 
+    'iXon' : {
+
+        'DU-888U3-CS0-#BV' : 
+        {
+            'displayName' : 'DU-888U3-CS0-#BV',
+            'mechanicalSpecification' : 'WN35FS',
+            'defaultWindow' : '(BB-VS-NR)W',
+            'availableWindows' : ['(BB-VV-NR)W', '(BB-VV-NR)U', '(BB-VS-NR)W','(BB-VS-NR)U', '(VS-NR-ENH)W', '(BB-VS-NR)W', '(NUV-ENH)U', ],
+            'sensorQE' : qe['BV'],
+        },
+
+        
+
+
+    },
+
     // zyla 
     'Zyla' : {
         'ZYLA-5.5-XXX(-X)' : 

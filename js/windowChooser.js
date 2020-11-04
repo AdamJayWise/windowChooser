@@ -25,6 +25,12 @@ optLUT = {
     '(BB-VV-NR)W DU-888U3-CS0-#BV' : '(BB-VV-NR)',
     '(BB-VV-NR)U DU-888U3-CS0-#BV' : '(BB-VV-NR)',
        
+    '(BB-VS-NR)W DU-897U-CS0-#BV' : 'OPT-00486',
+    '(BB-VS-NR)U DU-897U-CS0-#BV' : 'OPT-00486',
+    '(NUV-ENH)U DU-897U-CS0-#BV' : '(NUV-ENH)',
+    '(VS-NR-ENH)W DU-897U-CS0-#BV' : 'OPT-15718',
+    '(BB-VV-NR)W DU-897U-CS0-#BV' : '(BB-VV-NR)',
+    '(BB-VV-NR)U DU-897U-CS0-#BV' : '(BB-VV-NR)',
 
 
     // zyla

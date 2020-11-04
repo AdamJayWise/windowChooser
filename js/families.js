@@ -1,7 +1,11 @@
 // json structure of the product families
 var families = {
 
+
+
     // ixon 
+
+    /** commenting out ixon for now
     'iXon' : {
 
         'DU-888U3-CS0-#BV' : 
@@ -13,10 +17,19 @@ var families = {
             'sensorQE' : qe['BV'],
         },
 
-        
+        'DU-897U-CS0-#BV' : 
+        {
+            'displayName' : 'DU-897U-CS0-#BV',
+            'mechanicalSpecification' : 'WN35FS',
+            'defaultWindow' : '(BB-VS-NR)W',
+            'availableWindows' : ['(BB-VV-NR)W', '(BB-VV-NR)U', '(BB-VS-NR)W','(BB-VS-NR)U', '(VS-NR-ENH)W', '(BB-VS-NR)W', '(NUV-ENH)U', ],
+            'sensorQE' : qe['BV'],
+        },
 
 
     },
+
+     */
 
     // zyla 
     'Zyla' : {
@@ -62,6 +75,8 @@ var families = {
             'sensorQE' : qe['Balor'],
         },
     },
+
+    /** commenting out ikon xl for now
 
     // iKon-XL product family
     'iKon-XL' : {
@@ -346,6 +361,10 @@ var families = {
 
     },
 
+     */
+
+    /** commenting out ikon  for now 
+
     'iKon L' : {
         // models 
         'DW936N-#BV' : 
@@ -358,6 +377,8 @@ var families = {
         },
 
     },
+
+    */
 
     'Marana' : {
         // Sona models 

@@ -106,7 +106,7 @@ optLUT = {
 
 var windowDict = {
     '(BB-VS-NR)U' : 'Broadband VIS-NIR, Unwedged',
-    '(BB-VS-NR)W' : 'Broadband VIS-NIR, Unwedged',
+    '(BB-VS-NR)W' : 'Broadband VIS-NIR, Wedged',
     '(BB-VV-NR)U' : 'Broadband VUV-NIR, Unwedged',
     '(BB-VV-NR)W' : 'Broadband VUV-NIR, Wedged',
     '(VS-NR-ENH)W' : 'VIS-NIR Enhanced, Wedged',
@@ -428,7 +428,7 @@ for (var n in svgConfigs){
         .on('change', onChangeWindow)
     
     // add a div to display orderable part codes
-    self.codeList = self.controlDiv.append('div').text('Order As:')
+    self.codeList = self.controlDiv.append('div').text('Order Parts:')
 
     self.windowQeButtonDiv = self.controlDiv.append('div').classed('interpCheckBox', true);
     self.windowQeButtonCheckBox = self.windowQeButtonDiv
@@ -589,12 +589,24 @@ for (var n in svgConfigs){
                 // remove previous windows
                 self.codeList.selectAll('div').remove();
                 // add window codes
+                // need to re-jigger such that it won't print a window part if it's the default one
+                // how to check the default window?
+
+                function generateMiniBOM(part){
+                    if (part != self.productObj.defaultWindow){
+                        return '<ul> <li>' + self.product + ' </li>  <li>' + self.productObj.mechanicalSpecification + part + '</li> </ul>'
+                    }
+                    if (part = self.productObj.defaultWindow){
+                        return '<ul> <li>' + self.product + ' </li> </ul>'
+                    }
+                }
+
                 self.codeList
                     .selectAll('div')
                     .data(windowArray)
                     .enter()
                     .append('div')
-                    .text(d=>self.product + ' ' + self.productObj.mechanicalSpecification + d)
+                    .html(d=>generateMiniBOM(d))
                     .style('color', d=>colorDict[d])   
                     .style('font-weight',700)  
 

@@ -141,7 +141,7 @@ d3.select('.toDO').on('click', function(){d3.select(this).remove()})
     self.family = ''; // this is the current product family, e.g. Sona of the view
     self.product = ''; // this is the specific product of the view
     self.productObj = {}; // this is the json object with the rest of the prouct config up in there
-    self.canvasWidth = 400; // chart canvas width in pixels
+    self.canvasWidth = 560; // chart canvas width in pixels
     self.canvasHeight = 300; // chart canvas height in pixels
     self.canvasMargin = 50; // svg margin in pixels
     self.canvassBumper = 35;
@@ -407,16 +407,28 @@ for (var n in svgConfigs){
         
     self.windowKeyDiv.append('span')
     .text(' (')
+    
     self.windowKeyDiv.append('span')
         .classed('optionKey', true)
         .style('color', self.standardColor )
         .text(' Standard ')
-    self.windowKeyDiv.append('span')
+    
+        self.windowKeyDiv.append('span')
     .text(',')
+    
     self.windowKeyDiv.append('span')
         .text(' Option ')
         .classed('optionKey', true)
         .style('color', self.optionColor)
+    
+    self.windowKeyDiv.append('span')
+        .text(',')
+
+    self.windowKeyDiv.append('span')
+        .text(' Selected ')
+        .classed('optionKey', true)
+        .style('color', 'gray')
+    
     self.windowKeyDiv.append('span')
         .text(')')
 

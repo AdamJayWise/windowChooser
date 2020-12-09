@@ -142,7 +142,7 @@ d3.select('.toDO').on('click', function(){d3.select(this).remove()})
     self.product = ''; // this is the specific product of the view
     self.productObj = {}; // this is the json object with the rest of the prouct config up in there
     self.canvasWidth = 560; // chart canvas width in pixels
-    self.canvasHeight = 300; // chart canvas height in pixels
+    self.canvasHeight = 420; // chart canvas height in pixels
     self.canvasMargin = 50; // svg margin in pixels
     self.canvassBumper = 35;
     self.xTicks = [];

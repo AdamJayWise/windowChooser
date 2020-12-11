@@ -137,7 +137,7 @@ d3.select('.toDO').on('click', function(){d3.select(this).remove()})
     var self = this;
 
     // state of the object
-    self.div = d3.select('body').append('div'); // this is the div that the view goes into
+    self.div = d3.select('#contentDiv'); // this is the div that the view goes into
     self.family = ''; // this is the current product family, e.g. Sona of the view
     self.product = ''; // this is the specific product of the view
     self.productObj = {}; // this is the json object with the rest of the prouct config up in there
@@ -393,9 +393,9 @@ for (var n in svgConfigs){
 
     // append select for product
     self.productSelect = self.productDiv
-    .append('select')
-    .attr('value','Product')
-    .on('change', onChangeProduct)
+        .append('select')
+        .attr('value','Product')
+        .on('change', onChangeProduct)
 
     // append div to show default window
     self.defaultWindowDisplay = self.controlDiv.append('div').text('Default Window - ');
@@ -438,11 +438,17 @@ for (var n in svgConfigs){
         .attr('value','Product')
         .attr('multiple', 'true')
         .on('change', onChangeWindow)
+
+    self.windowDiv
+        .append('div')
+        .text('(Hold shift or control to select multiple options)')
+        .classed('subComment', true)
     
     // add a div to display orderable part codes
     self.codeList = self.controlDiv.append('div').text('Order Parts:')
 
-    self.windowQeButtonDiv = self.controlDiv.append('div').classed('interpCheckBox', true);
+    self.windowQeButtonDiv = d3.select("#interpCheckBoxDiv").classed('interpCheckBox', true);
+    
     self.windowQeButtonCheckBox = self.windowQeButtonDiv
         .append('input')
         .attr('type','checkbox')
@@ -450,6 +456,8 @@ for (var n in svgConfigs){
             plotInterp = !plotInterp;
             self.drawQE();
         });
+    
+    // append checkbox to include window + QE
     self.windowQeButtonDiv
         .append('span')
         .text('Show Effect of Window on Sensor Quantum Efficiency')

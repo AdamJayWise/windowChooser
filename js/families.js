@@ -405,7 +405,7 @@ var families = {
             'displayName' : 'Marana 4.2BV-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U',
-            'availableWindows' : ['(BB-VS-NR)U'],
+            'availableWindows' : ['(BB-VS-NR)U', '(BB-VV-NR)U'],
             'sensorQE' : qe['Sona6'],
         },
 
@@ -418,8 +418,8 @@ var families = {
             'displayName' : 'Sona 4.2B-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U',
-            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W'],
-            'sensorQE' : qe['Marana TVISB'],
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['Sona TVISB'],
         },
 
         'Sona-2BV11' : 
@@ -427,8 +427,8 @@ var families = {
             'displayName' : 'Sona 2.0B-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U',
-            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W'],
-            'sensorQE' : qe['Marana TVISB'],
+            'availableWindows' : ['(BB-VS-NR)U'],
+            'sensorQE' : qe['Sona TVISB'],
         },
 
         'Sona-4BV6' : 
@@ -436,7 +436,7 @@ var families = {
             'displayName' : 'Sona 4.2B-6',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U',
-            'availableWindows' : ['(BB-VS-NR)U', '(BB-VS-NR)W'],
+            'availableWindows' : ['(BB-VS-NR)U', '(BB-VV-NR)U'],
             'sensorQE' : qe['Sona6'],
         }
 

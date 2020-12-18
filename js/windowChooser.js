@@ -47,8 +47,9 @@ optLUT = {
     '(BB-VS-NR)U BLR-F401-(F or W)' : 'OPT-14344',
     '(BB-VS-NR)W BLR-F401-(F or W)' : 'OPT-14344',
 
-    // marana 4VB6
-    '(BB-VS-NR)U Marana-4VB6' : 'OPT-14344',
+    // marana 4BV6
+    '(BB-VS-NR)U Marana-4BV6' : 'OPT-14344',
+    '(BB-VV-NR)U Marana-4BV6' : '(BB-VV-NR)',
     
     // marana 4BV-11
     '(BB-VS-NR)U Marana 4BV-11' : 'OPT-13561',
@@ -67,6 +68,7 @@ optLUT = {
     // sona 4.2B6
     '(BB-VS-NR)U Sona-4BV6' : 'OPT-14344' ,
     '(BB-VS-NR)W Sona-4BV6' : 'OPT-14344' ,
+    '(BB-VV-NR)U Sona-4BV6' : '(BB-VV-NR)',
 
     //ikon - L
     '(BB-VV-NR)U DW936N-#BV' : '(BB-VV-NR)',
@@ -146,8 +148,8 @@ d3.select('.toDO').on('click', function(){d3.select(this).remove()})
     self.canvasMargin = 50; // svg margin in pixels
     self.canvassBumper = 35;
     self.xTicks = [];
-    self.yTicks = [50,60,70,80,90,100];
-    self.yAxisMin = 50;
+    self.yTicks = [0, 10, 20, 30, 40, 50,60,70,80,90,100];
+    self.yAxisMin = 0;
     self.yAxisMax = 100;
     self.xAxisMin = 100;
     self.xAxisMax = 1100;
@@ -447,20 +449,15 @@ for (var n in svgConfigs){
     // add a div to display orderable part codes
     self.codeList = self.controlDiv.append('div').text('Order Parts:')
 
-    self.windowQeButtonDiv = d3.select("#interpCheckBoxDiv").classed('interpCheckBox', true);
+    self.windowQeButtonDiv = d3.select("#interpCombinedQEButton")
+                                .classed('interpButton', true);
     
-    self.windowQeButtonCheckBox = self.windowQeButtonDiv
-        .append('input')
-        .attr('type','checkbox')
-        .on('change', function(){
+    self.windowQeButton = self.windowQeButtonDiv
+        .on('click', function(){
             plotInterp = !plotInterp;
             self.drawQE();
         });
     
-    // append checkbox to include window + QE
-    self.windowQeButtonDiv
-        .append('span')
-        .text('Show Effect of Window on Sensor Quantum Efficiency')
 
 
     // advanced window div

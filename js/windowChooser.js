@@ -505,7 +505,7 @@ for (var n in svgConfigs){
             .selectAll('option')
             .data(self.productObj['availableWindows']).enter()
             .append('option')
-            .text(function (d) { return windowDict[d] + ' - ' + d; })
+            .text(function (d) { return windowDict[d]; })
             .attr('value', function (d) { return d; })
             .style('background-color', function(d,i){
                 if (i==0) return self.standardColor;

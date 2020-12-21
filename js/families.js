@@ -400,7 +400,7 @@ var families = {
             'sensorQE' : qe['Marana UV'],
         },
 
-        'Marana-4VB6' : 
+        'Marana-4BV6' : 
         {
             'displayName' : 'Marana 4.2BV-11',
             'mechanicalSpecification' : 'WN50FS',

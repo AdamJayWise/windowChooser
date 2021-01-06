@@ -50,6 +50,7 @@ optLUT = {
     // marana 4BV6
     '(BB-VS-NR)U Marana-4BV6' : 'OPT-14344',
     '(BB-VV-NR)U Marana-4BV6' : '(BB-VV-NR)',
+    '(VS-NR-ENH)W Marana-4BV6' : 'OPT-15718',
     
     // marana 4BV-11
     '(BB-VS-NR)U Marana 4BV-11' : 'OPT-13561',

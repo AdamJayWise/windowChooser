@@ -405,7 +405,7 @@ var families = {
             'displayName' : 'Marana 4.2BV-11',
             'mechanicalSpecification' : 'WN50FS',
             'defaultWindow' : '(BB-VS-NR)U',
-            'availableWindows' : ['(BB-VS-NR)U', '(BB-VV-NR)U'],
+            'availableWindows' : ['(BB-VS-NR)U', '(BB-VV-NR)U', '(VS-NR-ENH)W'],
             'sensorQE' : qe['Sona6'],
         },
 
